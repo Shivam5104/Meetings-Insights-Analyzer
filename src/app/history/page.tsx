@@ -1,7 +1,10 @@
+'use client';
+
 import { Header } from '@/components/header';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
+import { AuthProvider } from '@/hooks/use-auth';
 
 const mockHistory = [
   { id: '1', date: '2023-10-27', title: 'Q3 Project Sync', sentiment: 'positive' },
@@ -10,7 +13,7 @@ const mockHistory = [
   { id: '4', date: '2023-10-20', title: 'Weekly Standup', sentiment: 'positive' },
 ];
 
-export default function HistoryPage() {
+function HistoryPageContent() {
   return (
     <div className="flex min-h-screen flex-col">
       <Header />
@@ -44,4 +47,13 @@ export default function HistoryPage() {
       </main>
     </div>
   );
+}
+
+
+export default function HistoryPage() {
+  return (
+    <AuthProvider>
+      <HistoryPageContent />
+    </AuthProvider>
+  )
 }

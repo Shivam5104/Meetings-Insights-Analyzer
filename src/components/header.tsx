@@ -1,9 +1,12 @@
+'use client';
+
 import Link from 'next/link';
 import { Logo } from '@/components/icons';
 import { Button } from '@/components/ui/button';
+import { useAuth } from '@/hooks/use-auth';
 
 export function Header() {
-  const isLoggedIn = false; // Placeholder
+  const { user, signOut, loading } = useAuth();
 
   return (
     <header className="sticky top-0 z-10 w-full border-b bg-background/80 backdrop-blur-sm">
@@ -15,13 +18,15 @@ export function Header() {
           </h1>
         </Link>
         <nav className="flex items-center gap-4">
-          {isLoggedIn && (
+          {user && (
              <Button variant="ghost" asChild>
                 <Link href="/history">History</Link>
             </Button>
           )}
-          {isLoggedIn ? (
-            <Button variant="outline">Sign Out</Button>
+          {user ? (
+            <Button variant="outline" onClick={signOut} disabled={loading}>
+              Sign Out
+            </Button>
           ) : (
             <Button asChild>
               <Link href="/login">Sign In</Link>
