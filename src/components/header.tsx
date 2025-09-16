@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { Logo } from '@/components/icons';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/hooks/use-auth';
+import { ThemeToggle } from './theme-toggle';
 
 export function Header() {
   const { user, signOut, loading } = useAuth();
@@ -32,6 +33,7 @@ export function Header() {
               <Link href="/login">Sign In</Link>
             </Button>
           )}
+          <ThemeToggle />
         </nav>
       </div>
     </header>
