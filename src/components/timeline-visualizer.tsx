@@ -24,7 +24,7 @@ export function TimelineVisualizer({ timeline }: TimelineVisualizerProps) {
             <Separator orientation="vertical" className="absolute left-[7px] top-0 h-full w-px bg-border" />
             {timeline.map((entry) => (
               <div key={entry.id} className="relative mb-6 flex items-start gap-4">
-                <div className="absolute left-0 top-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-primary">
+                <div className="absolute left-0 top-1.5 flex h-4 w-4 -translate-x-1/2 items-center justify-center rounded-full bg-primary">
                   <div className="h-1.5 w-1.5 rounded-full bg-primary-foreground"></div>
                 </div>
                 <p className="w-24 flex-shrink-0 pt-1 font-mono text-sm text-muted-foreground">{entry.time}</p>
