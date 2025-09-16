@@ -20,14 +20,14 @@ export function TimelineVisualizer({ timeline }: TimelineVisualizerProps) {
       </CardHeader>
       <CardContent>
         <TooltipProvider>
-          <div className="relative pl-8">
-            <Separator orientation="vertical" className="absolute left-3 top-0 h-full bg-border" />
-            {timeline.map((entry, index) => (
-              <div key={entry.id} className="relative mb-8 flex items-start gap-4">
-                <div className="absolute left-0 top-1.5 flex h-6 w-6 items-center justify-center rounded-full bg-primary">
-                  <div className="h-2 w-2 rounded-full bg-primary-foreground"></div>
+          <div className="relative pl-6">
+            <Separator orientation="vertical" className="absolute left-[7px] top-0 h-full w-px bg-border" />
+            {timeline.map((entry) => (
+              <div key={entry.id} className="relative mb-6 flex items-start gap-4">
+                <div className="absolute left-0 top-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-primary">
+                  <div className="h-1.5 w-1.5 rounded-full bg-primary-foreground"></div>
                 </div>
-                <p className="w-20 pt-1 font-mono text-sm text-muted-foreground">{entry.time}</p>
+                <p className="w-24 flex-shrink-0 pt-1 font-mono text-sm text-muted-foreground">{entry.time}</p>
                 <div
                   className={cn(
                     'flex-1 rounded-md border p-3 transition-colors',
