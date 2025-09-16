@@ -6,7 +6,7 @@ import { AuthProvider, useAuth } from '@/hooks/use-auth';
 import { Header } from '@/components/header';
 import type { AnalysisResult } from '@/lib/types';
 import { AnalysisResults } from '@/components/analysis-results';
-import { useHistory } from '@/hooks/use-history';
+import { useHistory, HistoryProvider } from '@/hooks/use-history';
 
 function MeetingDetailsPageContent() {
   const pathname = usePathname();
@@ -45,7 +45,9 @@ function MeetingDetailsPageContent() {
 export default function MeetingDetailsPage() {
   return (
     <AuthProvider>
-      <MeetingDetailsPageContent />
+      <HistoryProvider>
+        <MeetingDetailsPageContent />
+      </HistoryProvider>
     </AuthProvider>
   );
 }

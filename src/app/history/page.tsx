@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
 import { AuthProvider } from '@/hooks/use-auth';
-import { useHistory } from '@/hooks/use-history';
+import { useHistory, HistoryProvider } from '@/hooks/use-history';
 import type { MeetingHistoryItem } from '@/lib/types';
 
 function HistoryPageContent() {
@@ -54,7 +54,9 @@ function HistoryPageContent() {
 export default function HistoryPage() {
   return (
     <AuthProvider>
-      <HistoryPageContent />
+      <HistoryProvider>
+        <HistoryPageContent />
+      </HistoryProvider>
     </AuthProvider>
   )
 }
