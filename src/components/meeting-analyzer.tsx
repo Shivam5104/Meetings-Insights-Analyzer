@@ -23,7 +23,10 @@ export function MeetingAnalyzer() {
       const result = await analyzeMeetingNotes(rawNotes);
       setAnalysisResult(result);
     } catch (e: any) {
-      const errorMessage = e.message || 'An unexpected error occurred.';
+      let errorMessage = e.message || 'An unexpected error occurred.';
+      if (errorMessage.includes('503 Service Unavailable')) {
+        errorMessage = 'The analysis service is currently overloaded. Please try again in a few moments.';
+      }
       setError(errorMessage);
       toast({
         title: 'Analysis Failed',
