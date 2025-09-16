@@ -10,12 +10,12 @@ import { useAuth, AuthProvider } from '@/hooks/use-auth';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
-function LoginPageContent() {
-  const { user, signIn, loading } = useAuth();
+function SignupPageContent() {
+  const { user, signUp, loading } = useAuth();
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-   const [error, setError] = useState('');
+  const [error, setError] = useState('');
 
   useEffect(() => {
     if (user) {
@@ -23,10 +23,10 @@ function LoginPageContent() {
     }
   }, [user, router]);
 
-  const handleSignIn = async () => {
+  const handleSignUp = async () => {
     setError('');
     try {
-      await signIn(email, password);
+      await signUp(email, password);
       router.push('/');
     } catch (err: any) {
       setError(err.message);
@@ -39,8 +39,8 @@ function LoginPageContent() {
       <main className="flex flex-grow items-center justify-center">
         <Card className="w-full max-w-sm">
           <CardHeader className="text-center">
-            <CardTitle>Welcome Back</CardTitle>
-            <CardDescription>Sign in to access your meeting history.</CardDescription>
+            <CardTitle>Create an Account</CardTitle>
+            <CardDescription>Sign up to start analyzing your meetings.</CardDescription>
           </CardHeader>
           <CardContent className="grid gap-4">
             <div className="grid gap-2">
@@ -66,16 +66,16 @@ function LoginPageContent() {
                 disabled={loading}
               />
             </div>
-             {error && <p className="text-sm font-medium text-destructive">{error}</p>}
+            {error && <p className="text-sm font-medium text-destructive">{error}</p>}
           </CardContent>
           <CardFooter className="flex flex-col gap-4">
-            <Button className="w-full" onClick={handleSignIn} disabled={loading}>
-              {loading ? 'Signing in...' : 'Sign In'}
+            <Button className="w-full" onClick={handleSignUp} disabled={loading}>
+              {loading ? 'Creating Account...' : 'Sign Up'}
             </Button>
             <div className="text-sm text-center text-muted-foreground">
-              Don't have an account?{' '}
-              <Link href="/signup" className="underline text-primary">
-                Sign up
+              Already have an account?{' '}
+              <Link href="/login" className="underline text-primary">
+                Sign in
               </Link>
             </div>
           </CardFooter>
@@ -85,10 +85,10 @@ function LoginPageContent() {
   );
 }
 
-export default function LoginPage() {
+export default function SignupPage() {
   return (
     <AuthProvider>
-      <LoginPageContent />
+      <SignupPageContent />
     </AuthProvider>
   );
 }

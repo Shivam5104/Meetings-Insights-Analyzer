@@ -6,12 +6,14 @@ import type { AnalysisResult } from '@/lib/types';
 import { analyzeMeetingNotes } from '@/app/actions';
 import { TimelineInput } from '@/components/timeline-input';
 import { AnalysisResults } from '@/components/analysis-results';
+import { useHistory } from '@/hooks/use-history';
 
 export function MeetingAnalyzer() {
   const [analysisResult, setAnalysisResult] = useState<AnalysisResult | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { toast } = useToast();
+  const { addMeetingToHistory } = useHistory();
 
   const handleAnalysis = async (rawNotes: string) => {
     if (isLoading) return;
@@ -22,6 +24,7 @@ export function MeetingAnalyzer() {
     try {
       const result = await analyzeMeetingNotes(rawNotes);
       setAnalysisResult(result);
+      addMeetingToHistory(result);
     } catch (e: any) {
       let errorMessage = e.message || 'An unexpected error occurred.';
       if (errorMessage.includes('503 Service Unavailable')) {

@@ -2,37 +2,35 @@
 
 import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
-import { AuthProvider } from '@/hooks/use-auth';
+import { AuthProvider, useAuth } from '@/hooks/use-auth';
 import { Header } from '@/components/header';
-import { getMeetingDetails } from '@/app/actions';
 import type { AnalysisResult } from '@/lib/types';
 import { AnalysisResults } from '@/components/analysis-results';
+import { useHistory } from '@/hooks/use-history';
 
 function MeetingDetailsPageContent() {
   const pathname = usePathname();
   const id = pathname.split('/').pop() as string;
+  const { history } = useHistory();
   const [result, setResult] = useState<AnalysisResult | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { user } = useAuth();
 
   useEffect(() => {
-    if (id) {
-      getMeetingDetails(id)
-        .then((data) => {
-          if (data) {
-            setResult(data);
-          } else {
-            setError('Meeting analysis not found.');
-          }
-        })
-        .catch((err) => {
-          setError(err.message || 'Failed to load meeting details.');
-        })
-        .finally(() => {
-          setLoading(false);
-        });
+    if (user && id && history.length > 0) {
+      const foundMeeting = history.find((item) => item.id === id);
+      if (foundMeeting) {
+        setResult(foundMeeting);
+      } else {
+        setError('Meeting analysis not found in your session history.');
+      }
+      setLoading(false);
+    } else if (user) {
+        setLoading(false);
+        setError('No meeting history found for this session.');
     }
-  }, [id]);
+  }, [id, history, user]);
 
   return (
     <div className="flex min-h-screen flex-col">

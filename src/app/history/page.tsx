@@ -1,32 +1,15 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import { Header } from '@/components/header';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
 import { AuthProvider } from '@/hooks/use-auth';
-import { getMeetingHistory } from '@/app/actions';
+import { useHistory } from '@/hooks/use-history';
 import type { MeetingHistoryItem } from '@/lib/types';
-import { Skeleton } from '@/components/ui/skeleton';
 
 function HistoryPageContent() {
-  const [history, setHistory] = useState<MeetingHistoryItem[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    async function fetchHistory() {
-      try {
-        const historyItems = await getMeetingHistory();
-        setHistory(historyItems);
-      } catch (error) {
-        console.error("Failed to fetch meeting history:", error);
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchHistory();
-  }, []);
+  const { history } = useHistory();
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -35,19 +18,10 @@ function HistoryPageContent() {
         <Card>
           <CardHeader>
             <CardTitle>Meeting History</CardTitle>
-            <CardDescription>Review your past meeting analyses.</CardDescription>
+            <CardDescription>Review your past meeting analyses for this session. This will be cleared on page refresh.</CardDescription>
           </CardHeader>
           <CardContent>
-            {loading ? (
-               <div className="space-y-4">
-                 {[...Array(3)].map((_, i) => (
-                   <div key={i} className="p-4 border rounded-lg space-y-3">
-                     <Skeleton className="h-5 w-3/4" />
-                     <Skeleton className="h-4 w-1/4" />
-                   </div>
-                 ))}
-               </div>
-            ) : history.length === 0 ? (
+            {history.length === 0 ? (
                <p className="text-muted-foreground text-center py-8">You have no saved meeting analyses yet.</p>
             ) : (
               <div className="space-y-4">
@@ -56,7 +30,7 @@ function HistoryPageContent() {
                     <div className="flex justify-between items-center">
                       <div>
                         <p className="font-semibold">{item.title}</p>
-                        <p className="text-sm text-muted-foreground">{item.date}</p>
+                        <p className="text-sm text-muted-foreground">{new Date(item.date).toLocaleDateString()}</p>
                       </div>
                       <Badge variant={
                         item.sentiment === 'positive' ? 'default' :
